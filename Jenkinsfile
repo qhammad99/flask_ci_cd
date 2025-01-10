@@ -38,7 +38,10 @@ pipeline {
     stage('Deploying App to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "cluster_deployment.yaml", kubeconfigId: "kubernetes")
+        //   kubernetesDeploy(configs: "cluster_deployment.yaml", kubeconfigId: "kubernetes")
+          withKubeConfig([credentialsId: "kubernetes"]) {
+            sh 'kubectl apply -f cluster_deployment.yaml'
+          }
         }
       }
     }
