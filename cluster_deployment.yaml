@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: lb324-app
-          image: agachan/lb324
+          image: agachan/lb324:v1
           ports:
             - containerPort: 5000
 
