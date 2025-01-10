@@ -15,6 +15,7 @@ spec:
       containers:
         - name: lb324-app
           image: agachan/lb324:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
 
