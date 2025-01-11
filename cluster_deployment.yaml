@@ -16,6 +16,11 @@ spec:
         - name: lb324-app
           image: agachan/lb324:v2
           imagePullPolicy: Always
+                  resources:
+          requests:
+            cpu: "200m"  # Set a CPU request value (200 millicores)
+          limits:
+            cpu: "500m"
           ports:
             - containerPort: 5000
 
@@ -33,3 +38,23 @@ spec:
       port: 5000
       targetPort: 5000
       nodePort: 30003
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lb324
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lb324
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
