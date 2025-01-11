@@ -38,7 +38,7 @@ pipeline {
       steps{
         script {
           docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("v1")
+            dockerImage.push("v2")
           }
         }
       }
@@ -56,4 +56,20 @@ pipeline {
 
   }
 
+      post {
+        success {
+            mail to: 'testing@example.com',
+                 subject: "Build Successful",
+                 body: "The build was successful!"
+        }
+        failure {
+            mail to: 'testing@example.com',
+                 subject: "Build Failed",
+                 body: "The build failed!"
+        }
+        always {
+            echo 'Cleaning up resources...'
+            // This block will run regardless of success or failure
+        }
+    }
 }
